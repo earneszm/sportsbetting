@@ -3,14 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Eagle;
 
 namespace sportsbetting.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : SportsBettingBaseController
     {
         public ActionResult Index()
         {
-            return View();
+            using (FluentModel dataContext = new FluentModel())
+            {
+                var bet = new Bet();
+                bet.HomeTeam = "Siena";
+                bet.AwayTeam = "Albany";
+                bet.FinalScore = 100;
+
+                dataContext.Add(bet);
+
+                dataContext.SaveChanges();
+
+                var newBet = dataContext.Bets.FirstOrDefault();
+
+            }
+
+                return View();
         }
 
         public ActionResult About()
