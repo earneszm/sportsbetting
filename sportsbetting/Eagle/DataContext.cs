@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Eagle.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using Telerik.OpenAccess.Metadata;
 
 namespace Eagle
 {
-    public partial class FluentModel : OpenAccessContext
+    public partial class DataContext : OpenAccessContext
     {
         private static string connectionStringName = @"connectionId";
 
@@ -16,9 +17,9 @@ namespace Eagle
             GetBackendConfiguration();
 
         private static MetadataSource metadataSource =
-            new FluentModelMetadataSource();
+            new DataContextMetadataSource();
 
-        public FluentModel()
+        public DataContext()
             : base(connectionStringName, backend, metadataSource)
         { }
 
@@ -27,6 +28,14 @@ namespace Eagle
             get
             {
                 return this.GetAll<Bet>();
+            }
+        }
+
+        public IQueryable<User> Users
+        {
+            get
+            {
+                return this.GetAll<User>();
             }
         }
 

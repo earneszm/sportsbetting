@@ -10,7 +10,7 @@
 
 @(Html.Kendo().DatePicker().Name("datepicker"))
 
-@Html.Kendo().TextBox().Name("textbox")
+@Html.Kendo().Button().Name("createButton").Content("Create").Events(ev => ev.Click("createClick"))
 
 <div class="row">
     <div class="col-md-4">
@@ -33,3 +33,12 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+
+<script>
+    function createClick(e) {
+        $.ajax({
+            type: "POST",
+            url: "/Account/Register"
+        });
+    }
+</script>

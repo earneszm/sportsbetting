@@ -10,7 +10,7 @@ namespace sportsbetting
     {
         public static void UpdateDatabase()
         {
-            using (var context = new Eagle.FluentModel())
+            using (var context = new Eagle.DataContext())
             {
                 var schemaHandler = context.GetSchemaHandler();
                 EnsureDB(schemaHandler);

@@ -11,20 +11,20 @@ namespace sportsbetting.Controllers
     {
         public ActionResult Index()
         {
-            using (FluentModel dataContext = new FluentModel())
-            {
-                var bet = new Bet();
-                bet.HomeTeam = "Siena";
-                bet.AwayTeam = "Albany";
-                bet.FinalScore = 100;
+            //using (FluentModel dataContext = new FluentModel())
+            //{
+            //    var bet = new Bet();
+            //    bet.HomeTeam = "Siena";
+            //    bet.AwayTeam = "Albany";
+            //    bet.FinalScore = 100;
 
-                dataContext.Add(bet);
+            //    dataContext.Add(bet);
 
-                dataContext.SaveChanges();
+            //    dataContext.SaveChanges();
 
-                var newBet = dataContext.Bets.FirstOrDefault();
+            //    var newBet = dataContext.Bets.FirstOrDefault();
 
-            }
+            //}
 
                 return View();
         }
