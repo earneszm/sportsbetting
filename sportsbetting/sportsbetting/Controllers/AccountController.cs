@@ -154,7 +154,8 @@ namespace sportsbetting.Controllers
                 //    var user = new User { UserName = model.Email, Email = model.Email };
                 var user = new User();
             user.UserName = "zach";
-                var result = await UserManager.CreateAsync(user);
+            user.Password = "grubar";
+                var result = await UserManager.CreateAsync(user, user.Password);
                 //if (result.Succeeded)
                 //{
                 //    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

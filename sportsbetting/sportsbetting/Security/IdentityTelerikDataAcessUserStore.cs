@@ -9,7 +9,8 @@ using Eagle;
 
 namespace sportsbetting.Security
 {
-    public class IdentityTelerikDataAcessUserStore : IUserStore<User>, IUserPasswordStore<User>, IUserLoginStore<User>
+    public class IdentityTelerikDataAcessUserStore : IUserStore<User>, IUserPasswordStore<User>, IUserLoginStore<User>, IUserLockoutStore<User, string>,
+        IUserTwoFactorStore<User, string>
     {
         private bool _disposed;
         public DataContext Context { get; set; }
@@ -46,15 +47,19 @@ namespace sportsbetting.Security
             await this.SaveChanges();
         }
 
-        public Task DeleteAsync(User user)
+        public async Task DeleteAsync(User user)
         {
-            throw new NotImplementedException();
+            this.ThrowIfDisposed();
+            this.Context.Delete(user);
+
+            await this.SaveChanges();
         }
         
 
         public Task<User> FindByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            this.ThrowIfDisposed();
+            return Task.FromResult<User>(this.Context.Users.FirstOrDefault(o => o.Id == userId));
         }
 
         public Task<User> FindByNameAsync(string userName)
@@ -63,9 +68,11 @@ namespace sportsbetting.Security
             return Task.FromResult<User>(this.Context.Users.FirstOrDefault(o => o.UserName == userName));
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            this.ThrowIfDisposed();
+
+            await this.SaveChanges();
         }
 
         #region Dispose
@@ -96,17 +103,26 @@ namespace sportsbetting.Security
 
         public Task SetPasswordHashAsync(User user, string passwordHash)
         {
-            throw new NotImplementedException();
+            this.ThrowIfDisposed();
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            user.PasswordHash = passwordHash;
+            return Task.FromResult<int>(0);
         }
 
         public Task<string> GetPasswordHashAsync(User user)
         {
-            throw new NotImplementedException();
+            this.ThrowIfDisposed();
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            return Task.FromResult<string>(user.PasswordHash);
         }
 
         public Task<bool> HasPasswordAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<bool>(user.PasswordHash != null);
         }
 
         public Task AddLoginAsync(User user, UserLoginInfo login)
@@ -129,7 +145,56 @@ namespace sportsbetting.Security
             throw new NotImplementedException();
         }
 
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(User user)
+        {
+            DateTimeOffset offset = DateTime.UtcNow.AddDays(-1);
 
-        
+            //if (user.LockoutEndDate.HasValue)
+            //    offset = user.LockoutEndDate.Value;
+
+            return Task.FromResult(offset);
+        }
+
+        public Task SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccessFailedCountAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetAccessFailedCountAsync(User user)
+        {
+            //return Task.FromResult(DataUtils.CastAs<int>(user.LockoutAttempts));
+            return Task.FromResult(0);
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(User user)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task SetLockoutEnabledAsync(User user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetTwoFactorEnabledAsync(User user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetTwoFactorEnabledAsync(User user)
+        {
+            return Task.FromResult(false);
+            throw new NotImplementedException();
+        }
     }
 }

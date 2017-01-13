@@ -35,6 +35,9 @@ namespace sportsbetting
             bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
                 "~/Content/kendo/kendo.common-bootstrap.min.css",
                 "~/Content/kendo/kendo.bootstrap.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/CustomStyles").Include(
+                      "~/Content/main.css"));
         }
     }
 }

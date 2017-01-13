@@ -51,7 +51,8 @@ namespace Eagle
             mapping.MapType(user => new
             {
                 Id = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                PasswordHash = user.PasswordHash
             }).ToTable("User");
             mapping.HasProperty(c => c.Id).IsIdentity();
 
