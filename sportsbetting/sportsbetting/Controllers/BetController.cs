@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sportsbetting.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,14 @@ namespace sportsbetting.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new CreateBet();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(CreateBet bet)
+        {
+            return View(bet);
         }
     }
 }
